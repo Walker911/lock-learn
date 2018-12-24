@@ -54,4 +54,18 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     @Query(value = "update article set comment_count = :commentCount, version = version + 1 where id = :id " +
             "and version = :version", nativeQuery = true)
     int updateArticleWithVersion(Long id, Long commentCount, Long version);
+
+    /**
+     * 乐观锁：CAS - compare and swap
+     * 缺点：ABA 问题，若初次读取的值是 A，更新时检查还是 A，这并不能说明中间没有其他线程修改，有可能是
+     * 修改为 B，然后又修改为 A。
+     * @param id
+     * @param commentCount 更新值
+     * @param rawCommentCount 查询值
+     * @return
+     */
+    @Modifying
+    @Query(value = "update article set comment_count = :commentCount where id = :id " +
+            "and comment_count = :rawCommentCount", nativeQuery = true)
+    int updateArticleWithCAS(Long id, Long commentCount, Long rawCommentCount);
 }
