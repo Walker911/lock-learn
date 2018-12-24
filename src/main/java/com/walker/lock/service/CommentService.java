@@ -42,11 +42,17 @@ public class CommentService {
         comment.setContent(content);
         commentRepository.save(comment);
 
-        // int count = articleRepository.updateArticleWithVersion(article.getId(),
-        //         article.getCommentCount() + 1, article.getVersion());
-        // if (count == 0) {
-        //     throw new RuntimeException("服务器繁忙，更新数据失败");
+        // int retry = 0;
+        // while(retry < 10) {
+        //     retry++;
+        //     int count = articleRepository.updateArticleWithVersion(article.getId(),
+        //             article.getCommentCount() + 1, article.getVersion());
+        //     if (count == 1) {
+        //         break;
+        //     }
         // }
+        // throw exception: rollback data
+        // throw new RuntimeException("服务器繁忙，更新数据失败");
 
         article.setCommentCount(article.getCommentCount() + 1);
         articleRepository.save(article);
