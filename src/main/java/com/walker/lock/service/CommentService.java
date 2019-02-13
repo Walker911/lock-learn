@@ -48,7 +48,7 @@ public class CommentService {
         //     int count = articleRepository.updateArticleWithVersion(article.getId(),
         //             article.getCommentCount() + 1, article.getVersion());
         //     if (count == 1) {
-        //         break;
+        //         return;
         //     }
         // }
         // throw exception: rollback data
